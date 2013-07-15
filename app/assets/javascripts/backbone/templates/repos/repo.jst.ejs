@@ -1,7 +1,6 @@
-<td><%= name %></td>
-<td><%= owner %></td>
-<td><%= token %></td>
+<td><h3><a href="#/<%= id %>"><%= owner %>/<%= name %></a></h3></td>
 
-<td><a href="#/<%= id %>">Show</td>
-<td><a href="#/<%= id %>/edit">Edit</td>
-<td><a href="#/<%= id %>/destroy" class="destroy">Destroy</a></td>
+<td>
+  <a class="btn btn-warning" href="#/<%= id %>/edit">Edit</a>
+  <a class="btn btn-danger" href="#/<%= id %>/destroy" class="destroy">Destroy</a>
+</td>

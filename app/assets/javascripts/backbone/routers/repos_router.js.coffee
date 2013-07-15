@@ -1,6 +1,7 @@
 class Chrysalis.Routers.ReposRouter extends Backbone.Router
   initialize: (options) ->
     @repos = new Chrysalis.Collections.ReposCollection()
+    @repos.reset(options.repos)
 
   routes:
     "new"      : "newRepo"
@@ -15,9 +16,7 @@ class Chrysalis.Routers.ReposRouter extends Backbone.Router
 
   index: ->
     @view = new Chrysalis.Views.Repos.IndexView(repos: @repos)
-    @repos.fetch success: =>
-      console.log 'success'
-      $("#repos").html(@view.render().el)
+    $("#repos").html(@view.render().el)
 
   show: (id) ->
     repo = @repos.get(id)

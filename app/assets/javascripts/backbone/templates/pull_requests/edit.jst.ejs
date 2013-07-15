@@ -1,0 +1,25 @@
+<h1>Edit pull_request</h1>
+
+<form id="edit-pull_request" name="pull_request">
+  <div class="field">
+    <label for="repo_id"> repo_id:</label>
+    <input type="text" name="repo_id" id="repo_id" value="<%= repo_id %>" >
+  </div>
+
+  <div class="field">
+    <label for="branch"> branch:</label>
+    <input type="text" name="branch" id="branch" value="<%= branch %>" >
+  </div>
+
+  <div class="field">
+    <label for="status"> status:</label>
+    <input type="text" name="status" id="status" value="<%= status %>" >
+  </div>
+
+  <div class="actions">
+    <input type="submit" value="Update Pull request" />
+  </div>
+
+</form>
+
+<a href="#/index">Back</a>
