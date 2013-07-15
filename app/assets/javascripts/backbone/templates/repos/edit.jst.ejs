@@ -1,0 +1,25 @@
+<h1>Edit repo</h1>
+
+<form id="edit-repo" name="repo">
+  <div class="field">
+    <label for="name"> name:</label>
+    <input type="text" name="name" id="name" value="<%= name %>" >
+  </div>
+
+  <div class="field">
+    <label for="owner"> owner:</label>
+    <input type="text" name="owner" id="owner" value="<%= owner %>" >
+  </div>
+
+  <div class="field">
+    <label for="token"> token:</label>
+    <input type="text" name="token" id="token" value="<%= token %>" >
+  </div>
+
+  <div class="actions">
+    <input type="submit" value="Update Repo" />
+  </div>
+
+</form>
+
+<a href="#/index">Back</a>

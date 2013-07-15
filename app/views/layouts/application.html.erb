@@ -47,9 +47,6 @@
           <a class="brand" href="#">Chrysalis</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -58,32 +55,28 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
+        <div class="span12">
           <%= bootstrap_flash %>
-          <%= yield %>
+          <div id="repos"></div>
         </div>
       </div><!--/row-->
-
+<!--
       <footer>
         <p>&copy; Company 2013</p>
       </footer>
-
+-->
     </div> <!-- /container -->
 
     <!-- Javascripts
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Placed aPostt the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
+    <script type="text/javascript">
+      $(function() {
+        window.router = new Chrysalis.Routers.ReposRouter({});
+        Backbone.history.start();
+      });
+    </script>
 
   </body>
 </html>
