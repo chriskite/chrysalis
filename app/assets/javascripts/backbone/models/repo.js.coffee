@@ -1,5 +1,15 @@
-class Chrysalis.Models.Repo extends Backbone.Model
+class Chrysalis.Models.Repo extends Backbone.RelationalModel
   paramRoot: 'repo'
+
+  relations: [
+    type: Backbone.HasMany
+    key: 'pull_requests'
+    relatedModel: 'PullRequest'
+    collectionType: 'PullRequestCollection'
+    reverseRelation:
+      key: 'repo_id'
+      includeInJSON: 'id'
+  ]
 
   defaults:
     name: null

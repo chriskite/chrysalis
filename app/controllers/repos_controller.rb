@@ -5,7 +5,7 @@ class ReposController < ApplicationController
     @repos = Repo.all
 
     respond_to do |format|
-      format.json { render json: @repos }
+      format.json { render json: @repos.to_json(include: :pull_requests) }
     end
   end
 

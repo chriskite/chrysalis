@@ -73,7 +73,7 @@
     <%= javascript_include_tag "application" %>
     <script type="text/javascript">
       $(function() {
-        window.router = new Chrysalis.Routers.ReposRouter({repos: <%= @repos.to_json.html_safe -%>});
+        window.router = new Chrysalis.Routers.ReposRouter({repos: <%= @repos.to_json(include: :pull_requests).html_safe -%>});
         Backbone.history.start();
       });
     </script>

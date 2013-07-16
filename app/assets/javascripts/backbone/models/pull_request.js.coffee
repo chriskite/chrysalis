@@ -1,4 +1,4 @@
-class Chrysalis.Models.PullRequest extends Backbone.Model
+class Chrysalis.Models.PullRequest extends Backbone.RelationalModel
   paramRoot: 'pull_request'
 
   defaults:

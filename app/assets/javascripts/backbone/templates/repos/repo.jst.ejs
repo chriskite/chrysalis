@@ -1,4 +1,5 @@
-<td><h3><a href="#/<%= id %>"><%= owner %>/<%= name %></a></h3></td>
+<td><span class="repo-name"><a href="#/<%= id %>"><%= owner %>/<%= name %></a></span></td>
+<td><%= pull_requests.length %> pull request<%= pull_requests.length == 1 ? '' : 's' %></td>
 
 <td>
   <a class="btn btn-warning" href="#/<%= id %>/edit">Edit</a>
