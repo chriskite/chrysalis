@@ -1,2 +1,26 @@
-<td><%= branch %></td>
-<td><%= status %></td>
+<%
+  var statusClass = "";
+  var statusMsg = "Unknown";
+
+  switch(status) {
+    case 0:
+      statusMsg = "In Progress";
+      break;
+    case 1:
+      statusClass = "badge-success";
+      statusMsg = "Complete";
+      break;
+    case 2:
+      statusClass = "badge-important";
+      statusMsg = "Failed";
+      break;
+  };
+%>
+
+<% console.log(repo) %>
+<td><a href="https://github.com/<%= repo.owner %>/<%= repo.name %>/pull/<%= github_id %>"><%= branch %></a></td>
+<td><span class="badge <%= statusClass %>"><%= statusMsg %></span></td>
+<td><%= created_at %></td>
+<td><a href="#" class="btn btn-info">View Website</a>
+<a href="#" class="btn">View Logfile</a>
+<a href="#/pull_requests/<%= id %>/rebuild" class="btn btn-primary">Rebuild</a></td>

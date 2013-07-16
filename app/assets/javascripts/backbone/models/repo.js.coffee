@@ -7,10 +7,11 @@ class Chrysalis.Models.Repo extends Backbone.RelationalModel
     relatedModel: 'Chrysalis.Models.PullRequest'
     collectionType: 'Chrysalis.Collections.PullRequestsCollection'
     reverseRelation:
-      key: 'repo_id'
-      includeInJSON: Backbone.Model.prototype.idAttribute
+      key: 'repo'
     createModels: true
   ]
+
+  whitelist_attrs: ['name', 'owner', 'token']
 
   defaults:
     name: null
