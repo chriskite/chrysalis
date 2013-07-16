@@ -28,7 +28,7 @@ gem 'twitter-bootstrap-rails'
 gem 'rails-backbone', :git => 'git://github.com/chriskite/backbone-rails.git'
 gem 'underscore-rails'
 gem 'github_api'
-gem 'whenever'
+gem 'whenever', :require => false
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

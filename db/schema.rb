@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716200453) do
+ActiveRecord::Schema.define(:version => 20130716213734) do
 
   create_table "pull_requests", :force => true do |t|
     t.integer  "repo_id"
@@ -29,8 +29,13 @@ ActiveRecord::Schema.define(:version => 20130716200453) do
     t.string   "name"
     t.string   "owner"
     t.string   "token"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.integer  "github_status"
+    t.string   "github_client_id"
+    t.string   "github_client_secret"
+    t.string   "client_id"
+    t.string   "client_secret"
   end
 
 end

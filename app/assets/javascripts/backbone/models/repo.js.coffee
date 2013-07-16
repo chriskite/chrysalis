@@ -17,6 +17,8 @@ class Chrysalis.Models.Repo extends Backbone.RelationalModel
     name: null
     owner: null
     token: null
+    client_id: null
+    client_secret: null
 
 Chrysalis.Models.Repo.setup()
 

@@ -16,8 +16,19 @@
     <input type="text" name="token" id="token" value="<%= token %>" >
   </div>
 
+  <div class="field">
+    <label for="client_id"> client id:</label>
+    <input type="text" name="client_id" id="client_id" value="<%= client_id %>" >
+  </div>
+
+  <div class="field">
+    <label for="client_secret"> client secret:</label>
+    <input type="text" name="client_secret" id="client_secret" value="<%= client_secret %>" >
+  </div>
+
   <div class="actions">
-    <input type="submit" value="Update Repo" />
+    <input type="submit" class="btn btn-success" value="Update Repo" />
+    <a href="#/<%= id %>/destroy" class="btn btn-danger destroy">Delete</a>
   </div>
 
 </form>

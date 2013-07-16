@@ -5,6 +5,12 @@ class Chrysalis.Views.Repos.EditView extends Backbone.View
 
   events :
     "submit #edit-repo" : "update"
+    "click .destroy" : "destroy"
+
+  destroy: () ->
+    @model.destroy()
+    window.location.hash = ""
+    return false
 
   update : (e) ->
     e.preventDefault()
