@@ -25,6 +25,10 @@ class Repo < ActiveRecord::Base
             new_pull.github_created_at = pull.created_at
             new_pull.github_updated_at = pull.updated_at
             new_pull.save
+
+            # TODO build
+          else
+            # TODO If the remote pull request has been updated, save and rebuild
           end
         end
 
