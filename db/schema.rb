@@ -11,16 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716213734) do
+ActiveRecord::Schema.define(:version => 20130717162740) do
 
   create_table "pull_requests", :force => true do |t|
     t.integer  "repo_id"
-    t.string   "branch"
+    t.string   "title"
     t.string   "author"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "status"
-    t.integer  "github_id"
+    t.integer  "number"
+    t.string   "url"
+    t.string   "user_login"
+    t.string   "user_avatar_url"
+    t.string   "head_ref"
+    t.string   "head_sha"
+    t.string   "clone_url"
   end
 
   add_index "pull_requests", ["repo_id"], :name => "index_pull_requests_on_repo_id"

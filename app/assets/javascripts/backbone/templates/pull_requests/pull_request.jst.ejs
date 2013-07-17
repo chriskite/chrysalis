@@ -17,8 +17,8 @@
   };
 %>
 
-<% console.log(repo) %>
-<td><a href="https://github.com/<%= repo.owner %>/<%= repo.name %>/pull/<%= github_id %>"><%= branch %></a></td>
+<td><a href="<%= url %>"><%= title %></a></td>
+<td><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
 <td><span class="badge <%= statusClass %>"><%= statusMsg %></span></td>
 <td><%= created_at %></td>
 <td><a href="#" class="btn btn-info">View Website</a>
