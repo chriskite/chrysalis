@@ -1,8 +1,16 @@
 class Repo < ActiveRecord::Base
   has_many :pull_requests
-  attr_accessible :name, :owner, :token, :client_id, :client_secret, :github_status, :jira_url
+  attr_accessible :name,
+                  :owner,
+                  :token,
+                  :client_id,
+                  :client_secret,
+                  :github_status,
+                  :jira_url,
+                  :should_build_mysql,
+                  :should_build_nginx
 
-  def self.sync_all_with_github
+  def self.sync_all_with_github!
     all.each do |repo|
       begin
         github = Github.new(oauth_token: repo.token)
@@ -24,11 +32,18 @@ class Repo < ActiveRecord::Base
             new_pull.user_avatar_url = pull.user.avatar_url
             new_pull.github_created_at = pull.created_at
             new_pull.github_updated_at = pull.updated_at
+            new_pull.head_ref = pull.head.ref
+            new_pull.head_sha = pull.head.sha
+            new_pull.status = 3 # not started
             new_pull.save
 
-            # TODO build
+            #new_pull.build
           else
-            # TODO If the remote pull request has been updated, save and rebuild
+            # If the remote pull request has been updated, save and rebuild
+            if DateTime.parse(pull.updated_at) > existing_pull.updated_at
+              existing_pull.update_attributes(github_updated_at: pull.updated_at, status: 3)
+              #existing_pull.build
+            end
           end
         end
 
@@ -44,6 +59,10 @@ class Repo < ActiveRecord::Base
       # Set the success status
       repo.update_attributes(github_status: 1)
     end
+  end
+
+  def clone_url
+    "git@github.com:#{owner}/#{name}.git"
   end
 
 end

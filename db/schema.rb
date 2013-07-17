@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130717183221) do
+ActiveRecord::Schema.define(:version => 20130717191810) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -42,25 +42,13 @@ ActiveRecord::Schema.define(:version => 20130717183221) do
     t.string   "user_avatar_url"
     t.string   "head_ref"
     t.string   "head_sha"
-    t.string   "clone_url"
     t.datetime "github_created_at"
     t.datetime "github_updated_at"
   end
 
   add_index "pull_requests", ["repo_id"], :name => "index_pull_requests_on_repo_id"
 
-  create_table "repos", :force => true do |t|
-    t.string   "name"
-    t.string   "owner"
-    t.string   "token"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
-    t.integer  "github_status"
-    t.string   "github_client_id"
-    t.string   "github_client_secret"
-    t.string   "client_id"
-    t.string   "client_secret"
-    t.string   "jira_url"
-  end
+# Could not dump table "repos" because of following StandardError
+#   Unknown type 'bool' for column 'should_build_mysql'
 
 end

@@ -29,6 +29,7 @@ gem 'rails-backbone', :git => 'git://github.com/chriskite/backbone-rails.git'
 gem 'underscore-rails'
 gem 'github_api'
 gem 'whenever', :require => false
+gem 'daemons'
 gem 'delayed_job_active_record'
 
 # To use ActiveModel has_secure_password

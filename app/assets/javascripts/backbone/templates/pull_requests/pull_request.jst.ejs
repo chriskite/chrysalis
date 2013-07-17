@@ -1,10 +1,13 @@
 <%
   var statusClass = "";
   var statusMsg = "Unknown";
+  var loader = "";
 
   switch(status) {
     case 0:
-      statusMsg = "In Progress";
+      statusMsg = "Building";
+      statusClass = "badge-info";
+      loader = '<img style="position: relative; top: -1px; margin-right: 3px;" src="/assets/ajax-loader.gif" />';
       break;
     case 1:
       statusClass = "badge-success";
@@ -14,6 +17,9 @@
       statusClass = "badge-important";
       statusMsg = "Failed";
       break;
+    case 3:
+      statusMsg = "Not Started";
+      break;
   };
 
   var jiraIssue = title.match(/[A-Z]*-[0-9]*/)[0];
@@ -22,10 +28,14 @@
 <td><a href="<%= url %>"><%= title %></a></td>
 <td><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
 <td><%= jQuery.timeago(github_updated_at) %></td>
-<td><span class="badge <%= statusClass %>"><%= statusMsg %></span></td>
-<td><a href="#" class="btn btn-info">Website</a>
+<td><span class="badge <%= statusClass %>"><%= loader %> <%= statusMsg %></span></td>
+<td><a href="#" class="btn btn-primary">Website</a>
 <% if(repo.jira_url && jiraIssue) { %>
-  <a href="<%= repo.jira_url %>/browse/<%= jiraIssue %>" class="btn">JIRA Issue</a>
+  <a href="<%= repo.jira_url %>/browse/<%= jiraIssue %>" class="btn btn-primary">JIRA Issue</a>
 <% } %>
-<a href="#" class="btn">Logfile</a>
-<a href="#/pull_requests/<%= id %>/rebuild" class="btn btn-primary">Rebuild</a></td>
+<a href="#" class="btn btn-primary">Logfile</a>
+<a href="#/pull_requests/<%= id %>/rebuild" class="btn">
+  <i class="icon-refresh icon-white"></i>
+  Rebuild
+</a></td>
+
