@@ -37,7 +37,7 @@ class ReposController < ApplicationController
   # POST /repos
   # POST /repos.json
   def create
-    params[:repo].slice!(:name, :owner, :token)
+    params[:repo].slice!(:name, :owner, :token, :client_id, :client_secret, :jira_url)
     @repo = Repo.new(params[:repo])
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class ReposController < ApplicationController
   def update
     @repo = Repo.find(params[:id])
 
-    params[:repo].slice!(:name, :owner, :token)
+    params[:repo].slice!(:name, :owner, :token, :client_id, :client_secret, :jira_url)
 
     respond_to do |format|
       if @repo.update_attributes(params[:repo])
