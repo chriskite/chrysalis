@@ -1,6 +1,6 @@
 class Repo < ActiveRecord::Base
   has_many :pull_requests
-  attr_accessible :name, :owner, :token, :client_id, :client_secret, :github_status
+  attr_accessible :name, :owner, :token, :client_id, :client_secret, :github_status, :jira_url
 
   def self.sync_all_with_github
     all.each do |repo|
@@ -22,6 +22,8 @@ class Repo < ActiveRecord::Base
             new_pull.title = pull.title
             new_pull.user_login = pull.user.login
             new_pull.user_avatar_url = pull.user.avatar_url
+            new_pull.github_created_at = pull.created_at
+            new_pull.github_updated_at = pull.updated_at
             new_pull.save
           end
         end

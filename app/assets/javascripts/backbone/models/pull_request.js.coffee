@@ -8,6 +8,10 @@ class Chrysalis.Models.PullRequest extends Backbone.RelationalModel
     url: null
     user_login: null
     user_avatar_url: null
+    created_at: null
+    updated_at: null
+    github_created_at: null
+    github_updated_at: null
 
 class Chrysalis.Collections.PullRequestsCollection extends Backbone.Collection
   model: Chrysalis.Models.PullRequest

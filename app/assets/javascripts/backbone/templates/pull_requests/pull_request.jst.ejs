@@ -15,12 +15,17 @@
       statusMsg = "Failed";
       break;
   };
+
+  var jiraIssue = title.match(/[A-Z]*-[0-9]*/)[0];
 %>
 
 <td><a href="<%= url %>"><%= title %></a></td>
 <td><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
+<td><%= jQuery.timeago(github_updated_at) %></td>
 <td><span class="badge <%= statusClass %>"><%= statusMsg %></span></td>
-<td><%= created_at %></td>
-<td><a href="#" class="btn btn-info">View Website</a>
-<a href="#" class="btn">View Logfile</a>
+<td><a href="#" class="btn btn-info">Website</a>
+<% if(repo.jira_url && jiraIssue) { %>
+  <a href="<%= repo.jira_url %>/browse/<%= jiraIssue %>" class="btn">JIRA Issue</a>
+<% } %>
+<a href="#" class="btn">Logfile</a>
 <a href="#/pull_requests/<%= id %>/rebuild" class="btn btn-primary">Rebuild</a></td>
