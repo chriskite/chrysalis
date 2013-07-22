@@ -6,6 +6,7 @@ class Chrysalis.Views.Repos.EditView extends Backbone.View
   events :
     "submit #edit-repo" : "update"
     "click .destroy" : "destroy"
+    "click input:checkbox" : "check"
 
   destroy: () ->
     @model.destroy()
@@ -21,6 +22,12 @@ class Chrysalis.Views.Repos.EditView extends Backbone.View
         @model = repo
         window.location.hash = "/#{@model.id}"
     )
+
+  check: (e) ->
+    if e.currentTarget.checked == true
+      e.currentTarget.value = "true"
+    else
+      e.currentTarget.value = "false"
 
   render : ->
     $(@el).html(@template(@model.toJSON() ))

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130717191810) do
+ActiveRecord::Schema.define(:version => 20130722200240) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -28,6 +28,18 @@ ActiveRecord::Schema.define(:version => 20130717191810) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "provisioned_mysqls", :force => true do |t|
+    t.integer  "pull_request_id"
+    t.string   "db"
+    t.string   "user"
+    t.string   "password"
+    t.string   "host"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "provisioned_mysqls", ["pull_request_id"], :name => "index_provisioned_mysqls_on_pull_request_id"
 
   create_table "pull_requests", :force => true do |t|
     t.integer  "repo_id"
@@ -48,7 +60,19 @@ ActiveRecord::Schema.define(:version => 20130717191810) do
 
   add_index "pull_requests", ["repo_id"], :name => "index_pull_requests_on_repo_id"
 
-# Could not dump table "repos" because of following StandardError
-#   Unknown type 'bool' for column 'should_build_mysql'
+  create_table "repos", :force => true do |t|
+    t.string   "name"
+    t.string   "owner"
+    t.string   "token"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.integer  "github_status"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.string   "jira_url"
+    t.boolean  "should_provision_mysql"
+    t.boolean  "should_provision_nginx"
+    t.boolean  "should_provision_redis"
+  end
 
 end

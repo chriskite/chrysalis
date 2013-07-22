@@ -1,5 +1,8 @@
 class Repo < ActiveRecord::Base
   has_many :pull_requests
+
+  validates_presence_of :name, :owner
+
   attr_accessible :name,
                   :owner,
                   :token,
@@ -7,8 +10,9 @@ class Repo < ActiveRecord::Base
                   :client_secret,
                   :github_status,
                   :jira_url,
-                  :should_build_mysql,
-                  :should_build_nginx
+                  :should_provision_mysql,
+                  :should_provision_nginx,
+                  :should_provision_redis
 
   def self.sync_all_with_github!
     all.each do |repo|

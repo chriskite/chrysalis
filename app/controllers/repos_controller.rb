@@ -37,7 +37,7 @@ class ReposController < ApplicationController
   # POST /repos
   # POST /repos.json
   def create
-    params[:repo].slice!(:name, :owner, :token, :client_id, :client_secret, :jira_url)
+    params[:repo].delete(:pull_requests)
     @repo = Repo.new(params[:repo])
 
     respond_to do |format|
@@ -52,9 +52,10 @@ class ReposController < ApplicationController
   # PUT /repos/1
   # PUT /repos/1.json
   def update
-    @repo = Repo.find(params[:id])
+    blacklist = [:pull_requests, :created_at, :updated_at]
+    blacklist.each { |field| params[:repo].delete(field) }
 
-    params[:repo].slice!(:name, :owner, :token, :client_id, :client_secret, :jira_url)
+    @repo = Repo.find(params[:id])
 
     respond_to do |format|
       if @repo.update_attributes(params[:repo])

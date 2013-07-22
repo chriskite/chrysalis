@@ -1,35 +1,92 @@
 <h1>New Repo</h1>
 
-<form id="new-repo" name="repo">
-  <div class="field">
-    <label for="name"> name:</label>
-    <input type="text" name="name" id="name" value="<%= name %>" >
-  </div>
+<form id="new-repo" name="repo" class="form-horizontal well">
+  <fieldset>
+    <legend>GitHub Info</legend>
+    <div class="control-group">
+      <label class="control-label" for="name">Repo Name</label>
+      <div class="controls">
+        <input type="text" class="input-large" id="name" name="name" value="<%= name %>">
+      </div>
+    </div>
 
-  <div class="field">
-    <label for="owner"> owner:</label>
-    <input type="text" name="owner" id="owner" value="<%= owner %>" >
-  </div>
+    <div class="control-group">
+      <label class="control-label" for="name">Owner</label>
+      <div class="controls">
+        <input type="text" class="input-large" id="owner" name="owner" value="<%= owner %>">
+      </div>
+    </div>
 
-  <div class="field">
-    <label for="client_id"> client id:</label>
-    <input type="text" name="client_id" id="client_id" value="<%= client_id %>" >
-  </div>
+    <div class="control-group">
+      <label class="control-label" for="name">OAuth Token</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="token" name="token" value="<%= token %>">
+      </div>
+    </div>
 
-  <div class="field">
-    <label for="client_secret"> client secret:</label>
-    <input type="text" name="client_secret" id="client_secret" value="<%= client_secret %>" >
-  </div>
+    <div class="control-group">
+      <label class="control-label" for="name">Client ID</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="client_id" name="client_id" value="<%= client_id %>">
+      </div>
+    </div>
 
-  <div class="field">
-    <label for="jira_url"> jira url:</label>
-    <input type="text" name="jira_url" id="jira_url" value="<%= jira_url %>" >
-  </div>
+    <div class="control-group">
+      <label class="control-label" for="name">Client Secret</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="client_secret" name="client_secret" value="<%= client_secret %>">
+      </div>
+    </div>
 
-  <div class="actions">
-    <input type="submit" class="btn btn-success" value="Create Repo" />
-  </div>
+  </fieldset>
 
+  <fieldset>
+    <legend>Provisioning</legend>
+    <div class="control-group">
+      <label class="control-label" for="should_provision_mysql">MySQL</label>
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox" id="should_provision_mysql" name="should_provision_mysql">
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="should_provision_nginx">Nginx</label>
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox" id="should_provision_nginx" name="should_provision_nginx">
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="should_provision_redis">Redis</label>
+      <div class="controls">
+        <label class="checkbox">
+          <input type="checkbox" id="should_provision_redis" name="should_provision_redis">
+        </label>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>JIRA Integration</legend>
+    <div class="control-group">
+      <label class="control-label" for="name">JIRA Url</label>
+      <div class="controls">
+        <input type="text" class="input-large" id="jira_url" name="jira_url" value="<%= jira_url %>">
+        <p class="help-block">e.g. http://jira.local/</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-success">Create Repo</button>
+    </div>
+  </fieldset>
 </form>
+
 
 <a href="#/index">Back</a>

@@ -17,6 +17,7 @@ class Chrysalis.Views.Repos.NewView extends Backbone.View
   save: (e) ->
     e.preventDefault()
     e.stopPropagation()
+    console.log(@model)
 
     @model.unset("errors")
 
