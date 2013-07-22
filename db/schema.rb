@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130722200240) do
+ActiveRecord::Schema.define(:version => 20130722201909) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -30,23 +30,35 @@ ActiveRecord::Schema.define(:version => 20130722200240) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "provisioned_mysqls", :force => true do |t|
-    t.integer  "pull_request_id"
     t.string   "db"
     t.string   "user"
     t.string   "password"
     t.string   "host"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "provisioned_mysqls", ["pull_request_id"], :name => "index_provisioned_mysqls_on_pull_request_id"
+  create_table "provisioned_nginxes", :force => true do |t|
+    t.string   "sites_available_file"
+    t.string   "sites_enabled_file"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  create_table "provisioned_redis", :force => true do |t|
+    t.integer  "port"
+    t.string   "pidfile"
+    t.string   "config_file"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "pull_requests", :force => true do |t|
     t.integer  "repo_id"
     t.string   "title"
     t.string   "author"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "status"
     t.integer  "number"
     t.string   "url"
@@ -56,6 +68,9 @@ ActiveRecord::Schema.define(:version => 20130722200240) do
     t.string   "head_sha"
     t.datetime "github_created_at"
     t.datetime "github_updated_at"
+    t.integer  "provisioned_mysql_id"
+    t.integer  "provisioned_nginx_id"
+    t.integer  "provisioned_redis_id"
   end
 
   add_index "pull_requests", ["repo_id"], :name => "index_pull_requests_on_repo_id"

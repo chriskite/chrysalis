@@ -1,26 +1,29 @@
 class PullRequest < ActiveRecord::Base
   belongs_to :repo
   has_many :builds
+  has_one :provisioned_mysql
+  has_one :provisioned_nginx
+  has_one :provisioned_redis
+
   attr_accessible :author,
                   :branch,
                   :github_updated_at,
-                  :status
+                  :status,
+                  :build_path
 
   def build
     update_attributes(status: 0)
     begin
       builds_dir = Rails.root.join('builds')
-      system("mkdir -p #{builds_dir}")
-      raise "Error creating builds dir" if $? != 0
+      FileUtils.mkdir_p(builds_dir)
 
       @build_path = builds_dir.join("#{repo.owner}.#{repo.name}.#{number}")
 
       checkout
 
-      build_mysql if repo.should_build_mysql
-      build_nginx if repo.should_build_nginx
+      provision_resources
 
-      # TODO run build command
+      run_build_command
     rescue
       update_attributes(status: 2)
     end
@@ -38,12 +41,21 @@ class PullRequest < ActiveRecord::Base
       raise "Error checking out ref" if $? != 0
   end
 
-  def build_mysql
-    raise "should_build_mysql option is set to false" unless should_build_mysql
-    # return if db already exists for this pull request
+  def provision_resources
+    if repo.should_provision_mysql
+      update_attributes(provisioned_mysql: ProvisionedMysql.create(self))
+    end
+
+    if repo.should_provision_nginx
+      update_attributes(provisioned_nginx: ProvisionedNginx.create(self))
+    end
+
+    if repo.should_provision_redis
+      update_attributes(provisioned_redis: ProvisionedRedis.create(self))
+    end
   end
 
-  def build_nginx
-    raise "should_build_nginx option is set to false" unless should_build_nginx
+  def run_build_command
+    # TODO run build command
   end
 end

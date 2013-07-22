@@ -64,5 +64,15 @@ module Chrysalis
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+
+    # Chrysalis Provisioning Configuration
+    # Set these values in config/environments/{ENV}.rb as appropriate for your environment
+    config.nginx_config_dir = '/etc/nginx'
+    config.nginx_reload_command = 'sudo service nginx reload'
+    config.redis_executable = '/usr/local/bin/redis-server'
+    config.mysql_host = '127.0.0.1'
+    config.mysql_user = 'chrysalis'
+    config.mysql_password = 'chrysalis'
   end
 end
