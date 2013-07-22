@@ -68,6 +68,22 @@
         </label>
       </div>
     </div>
+
+    <div class="control-group">
+      <label class="control-label" for="nginx_template">Nginx Config Template</label>
+      <div class="controls">
+        <textarea id="nginx_template" name="nginx_template" rows="10" cols="90"><%= nginx_template %></textarea>
+        <p class="help-block">Template variables: {{number}} {{build_dir}}</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="redis_template">Redis Config Template</label>
+      <div class="controls">
+        <textarea id="redis_template" name="redis_template" rows="10" cols="90"><%= redis_template %></textarea>
+        <p class="help-block">Template variables: {{port}}</p>
+      </div>
+    </div>
   </fieldset>
 
   <fieldset>

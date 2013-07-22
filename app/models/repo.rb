@@ -12,7 +12,9 @@ class Repo < ActiveRecord::Base
                   :jira_url,
                   :should_provision_mysql,
                   :should_provision_nginx,
-                  :should_provision_redis
+                  :should_provision_redis,
+                  :nginx_template,
+                  :redis_template
 
   def self.sync_all_with_github!
     all.each do |repo|

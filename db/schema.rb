@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130722201909) do
+ActiveRecord::Schema.define(:version => 20130722220528) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(:version => 20130722201909) do
     t.boolean  "should_provision_mysql"
     t.boolean  "should_provision_nginx"
     t.boolean  "should_provision_redis"
+    t.text     "nginx_template"
+    t.text     "redis_template"
   end
 
 end
