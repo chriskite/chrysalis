@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/chriskite/backbone-rails.git
-  revision: 646b934143762f7b0fba6e4f061756838f25f886
+  revision: 26691dc0588c420bca3110fd02a843bdd4e131eb
   specs:
     rails-backbone (1.0.0)
       coffee-script (~> 2.2.0)

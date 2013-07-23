@@ -1,15 +1,20 @@
 class PullRequest < ActiveRecord::Base
   belongs_to :repo
-  has_many :builds
-  has_one :provisioned_mysql
-  has_one :provisioned_nginx
-  has_one :provisioned_redis
+  has_one :provisioned_mysql, dependent: :destroy
+  has_one :provisioned_nginx, dependent: :destroy
+  has_one :provisioned_redis, dependent: :destroy
+
+  attr_reader :build_path
+
+  before_destroy :destroy_build
 
   attr_accessible :author,
                   :branch,
                   :github_updated_at,
                   :status,
-                  :build_path
+                  :provisioned_mysql,
+                  :provisioned_nginx,
+                  :provisioned_redis
 
   def build
     update_attributes(status: 0)
@@ -17,7 +22,7 @@ class PullRequest < ActiveRecord::Base
       builds_dir = Rails.root.join('builds')
       FileUtils.mkdir_p(builds_dir)
 
-      @build_path = builds_dir.join("#{repo.owner}.#{repo.name}.#{number}")
+      @build_path = builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
 
       checkout
 
@@ -26,6 +31,7 @@ class PullRequest < ActiveRecord::Base
       run_build_command
     rescue
       update_attributes(status: 2)
+      raise $!
     end
 
     update_attributes(status: 1)
@@ -34,8 +40,7 @@ class PullRequest < ActiveRecord::Base
 
   def checkout
     if !Dir.exists?(@build_path)
-      system("git clone #{repo.clone_url} #{@build_path}")
-      raise "Error cloning repo" if $? != 0
+      FileUtils.cp_r(repo.cached_copy, @build_path)
     end
     system("cd #{@build_path} && git fetch origin && git checkout #{head_ref} && git pull origin #{head_ref}")
       raise "Error checking out ref" if $? != 0
@@ -57,5 +62,11 @@ class PullRequest < ActiveRecord::Base
 
   def run_build_command
     # TODO run build command
+  end
+
+  def destroy_build
+    if Dir.exists?(@build_path.to_s)
+      FileUtils.rmdir(@build_path.to_s)
+    end
   end
 end

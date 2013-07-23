@@ -1,5 +1,5 @@
 class Repo < ActiveRecord::Base
-  has_many :pull_requests
+  has_many :pull_requests, dependent: :destroy
 
   validates_presence_of :name, :owner
 
@@ -19,6 +19,8 @@ class Repo < ActiveRecord::Base
   def self.sync_all_with_github!
     all.each do |repo|
       begin
+        repo.clone_into_cached_copy
+
         github = Github.new(oauth_token: repo.token)
 
         # Get all open pull requests for this repo
@@ -29,21 +31,8 @@ class Repo < ActiveRecord::Base
 
           # If it's new, save to the db
           if existing_pull.nil?
-            new_pull = PullRequest.new
-            new_pull.repo = repo
-            new_pull.number = pull.number
-            new_pull.url = pull.html_url
-            new_pull.title = pull.title
-            new_pull.user_login = pull.user.login
-            new_pull.user_avatar_url = pull.user.avatar_url
-            new_pull.github_created_at = pull.created_at
-            new_pull.github_updated_at = pull.updated_at
-            new_pull.head_ref = pull.head.ref
-            new_pull.head_sha = pull.head.sha
-            new_pull.status = 3 # not started
-            new_pull.save
-
-            #new_pull.build
+            new_pull = repo.new_pull_from_api(pull)
+            new_pull.build
           else
             # If the remote pull request has been updated, save and rebuild
             if DateTime.parse(pull.updated_at) > existing_pull.updated_at
@@ -69,6 +58,31 @@ class Repo < ActiveRecord::Base
 
   def clone_url
     "git@github.com:#{owner}/#{name}.git"
+  end
+
+  def clone_into_cached_copy
+    system("git clone #{clone_url} #{cached_copy}") if !Dir.exists?(cached_copy)
+  end
+
+  def new_pull_from_api(pull)
+    new_pull = PullRequest.new
+    new_pull.repo = self
+    new_pull.number = pull.number
+    new_pull.url = pull.html_url
+    new_pull.title = pull.title
+    new_pull.user_login = pull.user.login
+    new_pull.user_avatar_url = pull.user.avatar_url
+    new_pull.github_created_at = pull.created_at
+    new_pull.github_updated_at = pull.updated_at
+    new_pull.head_ref = pull.head.ref
+    new_pull.head_sha = pull.head.sha
+    new_pull.status = 3 # not started
+    new_pull.save
+    new_pull
+  end
+
+  def cached_copy
+    Rails.root.join("builds", "#{owner}-#{name}-cached-copy")
   end
 
 end

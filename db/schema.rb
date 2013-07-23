@@ -34,13 +34,15 @@ ActiveRecord::Schema.define(:version => 20130722220528) do
     t.string   "user"
     t.string   "password"
     t.string   "host"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "pull_request_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "provisioned_nginxes", :force => true do |t|
     t.string   "sites_available_file"
     t.string   "sites_enabled_file"
+    t.integer  "pull_request_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end
@@ -49,16 +51,17 @@ ActiveRecord::Schema.define(:version => 20130722220528) do
     t.integer  "port"
     t.string   "pidfile"
     t.string   "config_file"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "pull_request_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "pull_requests", :force => true do |t|
     t.integer  "repo_id"
     t.string   "title"
     t.string   "author"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "status"
     t.integer  "number"
     t.string   "url"
@@ -68,9 +71,6 @@ ActiveRecord::Schema.define(:version => 20130722220528) do
     t.string   "head_sha"
     t.datetime "github_created_at"
     t.datetime "github_updated_at"
-    t.integer  "provisioned_mysql_id"
-    t.integer  "provisioned_nginx_id"
-    t.integer  "provisioned_redis_id"
   end
 
   add_index "pull_requests", ["repo_id"], :name => "index_pull_requests_on_repo_id"

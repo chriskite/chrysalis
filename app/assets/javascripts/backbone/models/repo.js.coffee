@@ -24,6 +24,7 @@ class Chrysalis.Models.Repo extends Backbone.RelationalModel
     should_provision_nginx: null
     should_provision_redis: null
     nginx_template: null
+    redis_template: null
 
 Chrysalis.Models.Repo.setup()
 
