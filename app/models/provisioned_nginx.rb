@@ -3,7 +3,7 @@ class ProvisionedNginx < ActiveRecord::Base
 
   before_destroy :destroy_nginx
 
-  attr_accessible :sites_available_file, :sites_enabled_file
+  attr_accessible :sites_available_file, :sites_enabled_file, :pull_request
 
   def self.create(pull_request)
     config_dir = Rails.configuration.nginx_config_dir
@@ -29,7 +29,8 @@ class ProvisionedNginx < ActiveRecord::Base
 
       return self.new(
         sites_available_file: sites_available_file,
-        sites_enabled_file: sites_enabled_file
+        sites_enabled_file: sites_enabled_file,
+        pull_request: pull_request
       )
     rescue
       File.unlink(sites_available_file) if File.exists?(sites_available_file)
