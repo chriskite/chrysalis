@@ -1,5 +1,5 @@
 class Repo < ActiveRecord::Base
-  has_many :pull_requests, dependent: :destroy
+  has_many :pull_requests, dependent: :destroy, order: 'github_updated_at DESC'
 
   validates_presence_of :name, :owner
 

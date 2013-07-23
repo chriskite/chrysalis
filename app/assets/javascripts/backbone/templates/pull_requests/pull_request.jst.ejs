@@ -27,7 +27,12 @@
 <td><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
 <td><%= jQuery.timeago(github_updated_at) %></td>
 <td><span class="badge <%= statusClass %>"><%= loader %> <%= statusMsg %></span></td>
-<td><a href="#" class="btn btn-primary">Website</a>
+<% 
+  var website = this.model.website();
+  if(!!website) {
+%>
+<td><a href="http://<%= website %>" class="btn btn-primary">Website</a>
+<% } %>
 <% if(repo.jira_url && this.model.jiraIssue()) { %>
   <a href="<%= repo.jira_url %>/browse/<%= this.model.jiraIssue() %>" class="btn btn-primary">JIRA Issue</a>
 <% } %>

@@ -16,6 +16,13 @@ class Chrysalis.Models.PullRequest extends Backbone.RelationalModel
   jiraIssue: ->
     match = @get('title').match(/[A-Z]*-[0-9]*/)?[0]
 
+  website: ->
+    nginx_template = @get('repo').get('nginx_template')
+    if !!nginx_template && @get('repo').get('should_provision_nginx')
+      match = /server_name (.*);/i.exec(nginx_template)
+      return match?[1].replace('{{number}}', @get('number'))
+    null
+
 class Chrysalis.Collections.PullRequestsCollection extends Backbone.Collection
   model: Chrysalis.Models.PullRequest
   url: '/pull_requests'
