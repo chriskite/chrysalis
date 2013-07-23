@@ -6,12 +6,10 @@ class ProvisionedNginx < ActiveRecord::Base
   attr_accessible :sites_available_file, :sites_enabled_file
 
   def self.create(pull_request)
-    Rails.logger.info "Provisioning Nginx for PullRequest:#{pull_request.id} Number:#{pull_request.number}"
-
     config_dir = Rails.configuration.nginx_config_dir
     sites_available_file = File.join(config_dir, 'sites-available', pull_request.number.to_s) 
     sites_enabled_file = File.join(config_dir, 'sites-enabled', pull_request.number.to_s) 
-    config_template = pull_request.repo.nginx_template
+    config_template = pull_request.repo.nginx_template.dup
 
     begin
       # write the repo's nginx config template to the sites available file

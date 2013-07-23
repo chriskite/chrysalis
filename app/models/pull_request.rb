@@ -19,10 +19,7 @@ class PullRequest < ActiveRecord::Base
   def build
     update_attributes(status: 0)
     begin
-      builds_dir = Rails.root.join('builds')
-      FileUtils.mkdir_p(builds_dir)
-
-      @build_path = builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
+      ensure_builds_dir_exists
 
       checkout
 
@@ -39,10 +36,13 @@ class PullRequest < ActiveRecord::Base
   #handle_asynchronously :build
 
   def checkout
+    ensure_builds_dir_exists
+
     if !Dir.exists?(@build_path)
       FileUtils.cp_r(repo.cached_copy, @build_path)
     end
-    system("cd #{@build_path} && git fetch origin && git checkout #{head_ref} && git pull origin #{head_ref}")
+
+    system("cd #{@build_path} && git fetch origin && git checkout #{head_ref} && git reset --hard origin/#{head_ref}")
       raise "Error checking out ref" if $? != 0
   end
 
@@ -69,4 +69,13 @@ class PullRequest < ActiveRecord::Base
       FileUtils.rmdir(@build_path.to_s)
     end
   end
+
+  private
+
+  def ensure_builds_dir_exists
+    builds_dir = Rails.root.join('builds')
+    FileUtils.mkdir_p(builds_dir)
+    @build_path = builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
+  end
+
 end
