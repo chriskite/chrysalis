@@ -23,7 +23,10 @@ class ProvisionedNginx < ActiveRecord::Base
         end
         file.write(config_template)
       end
-      FileUtils.ln_s(sites_available_file, sites_enabled_file)
+
+      if !File.exists?(sites_enabled_file)
+        FileUtils.ln_s(sites_available_file, sites_enabled_file)
+      end
 
       self.reload_nginx
 

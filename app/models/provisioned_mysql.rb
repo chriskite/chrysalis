@@ -8,7 +8,7 @@ class ProvisionedMysql < ActiveRecord::Base
   def self.mysql_client
     Mysql2::Client.new(
       host: Rails.configuration.mysql_host,
-      user: Rails.configuration.mysql_user,
+      username: Rails.configuration.mysql_user,
       password: Rails.configuration.mysql_password,
     )
 
@@ -20,14 +20,14 @@ class ProvisionedMysql < ActiveRecord::Base
     
     client = self.mysql_client
 
-    client.query(<<END-
+    client.query <<END
 CREATE DATABASE IF NOT EXISTS #{client.escape(db)}
   DEFAULT CHARACTER SET = 'utf8'
   DEFAULT COLLATE = 'utf8_general_ci'
 END
 
     self.new(
-      db: db
+      db: db,
       host: Rails.configuration.mysql_host,
       user: Rails.configuration.mysql_user,
       password: Rails.configuration.mysql_password,

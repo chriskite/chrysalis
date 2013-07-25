@@ -23,6 +23,9 @@ class Chrysalis.Models.PullRequest extends Backbone.RelationalModel
       return match?[1].replace('{{number}}', @get('number'))
     null
 
+  rebuild: ->
+    # TODO rebuild
+
 class Chrysalis.Collections.PullRequestsCollection extends Backbone.Collection
   model: Chrysalis.Models.PullRequest
   url: '/pull_requests'

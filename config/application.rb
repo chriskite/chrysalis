@@ -70,7 +70,7 @@ module Chrysalis
     # Set these values in config/environments/{ENV}.rb as appropriate for your environment
     config.nginx_config_dir = '/etc/nginx'
     config.nginx_reload_command = 'sudo service nginx reload'
-    config.redis_executable = '/usr/local/bin/redis-server'
+    config.redis_executable = '/usr/bin/redis-server'
     config.redis_port_start = 51000
     config.mysql_host = '127.0.0.1'
     config.mysql_user = 'chrysalis'

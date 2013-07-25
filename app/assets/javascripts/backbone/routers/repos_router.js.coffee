@@ -20,6 +20,9 @@ class Chrysalis.Routers.ReposRouter extends Backbone.Router
 
   show: (id) ->
     repo = @repos.get(id)
+    setInterval =>
+      repo.fetchRelated('pull_requests', {}, true)
+    , 1000
 
     @view = new Chrysalis.Views.Repos.ShowView(model: repo)
     $("#repos").html(@view.render().el)
