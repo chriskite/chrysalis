@@ -15,7 +15,7 @@ class ReposController < ApplicationController
     @repo = Repo.find(params[:id])
 
     respond_to do |format|
-      format.json { render json: @repo }
+      format.json { render json: @repo.to_json(include: :pull_requests) }
     end
   end
 

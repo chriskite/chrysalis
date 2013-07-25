@@ -10,6 +10,11 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
 
   initialize: ->
     @model.bind('change', @render)
+    @model.bind('remove', @remove)
+    @model.bind('destroy', @remove)
+
+  remove: =>
+    @$el.empty()
 
   rebuild: ->
     @model.rebuild()
@@ -17,4 +22,5 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
 
   render: =>
     @$el.html(@template(@model.toJSON() ))
+    console.log('renderin')
     return this

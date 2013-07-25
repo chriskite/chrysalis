@@ -29,5 +29,6 @@ class ProvisionedRedis < ActiveRecord::Base
 
   def destroy_redis
     system("kill -9 `cat #{pidfile}`")
+    nil
   end
 end

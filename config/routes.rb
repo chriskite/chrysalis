@@ -1,4 +1,7 @@
 Chrysalis::Application.routes.draw do
+  resources :pull_requests
+
+
   resources :repos
 
 
