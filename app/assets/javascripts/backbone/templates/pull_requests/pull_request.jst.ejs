@@ -18,7 +18,7 @@
       statusMsg = "Failed";
       break;
     case 3:
-      statusMsg = "Not Started";
+      statusMsg = "In Queue";
       break;
   };
 %>
@@ -36,9 +36,13 @@
 <% if(repo.jira_url && this.model.jiraIssue()) { %>
   <a href="<%= repo.jira_url %>/browse/<%= this.model.jiraIssue() %>" class="btn btn-primary">JIRA Issue</a>
 <% } %>
-<a href="#" class="btn btn-primary">Logfile</a>
+
+<% if(1 == status) { %>
 <a href="#" class="btn rebuild">
   <i class="icon-refresh icon-white"></i>
   Rebuild
-</a></td>
+</a>
+<% } %>
+
+</td>
 

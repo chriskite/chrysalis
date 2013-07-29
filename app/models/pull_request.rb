@@ -16,6 +16,12 @@ class PullRequest < ActiveRecord::Base
                   :provisioned_nginx,
                   :provisioned_redis
 
+  # Update the status immediately to 'in queue', but Delayed Job the build
+  def delayed_build
+    update_attributes(status: 3)
+    self.delay.build
+  end
+
   def build
     update_attributes(status: 0)
     begin
@@ -28,12 +34,11 @@ class PullRequest < ActiveRecord::Base
       run_build_command
     rescue
       update_attributes(status: 2)
-      raise $!
+      Rails.logger.error $!.to_s
     end
 
     update_attributes(status: 1)
   end
-  #handle_asynchronously :build
 
   def checkout
     ensure_builds_dir_exists
@@ -61,7 +66,22 @@ class PullRequest < ActiveRecord::Base
   end
 
   def run_build_command
-    # TODO run build command
+    env_vars = {}
+    if !!provisioned_mysql
+      env_vars.merge!(
+        "MYSQL_DB" => provisioned_mysql.db,
+        "MYSQL_USER" => provisinoed_mysql.user,
+        "MYSQL_PASSWORD" => provisioned_mysql.password,
+      )
+    end
+
+    if !!provisioned_redis
+      env_vars.merge!("REDIS_PORT" => provisioned_redis.port)
+    end
+    
+    env_vars = env_vars.map { |env,val| "CHRYSALIS_#{env}=#{val}" }.join(" ")
+
+    system("cd #{@build_path}/build && #{env_vars} ./build.sh")
   end
 
   def destroy_build

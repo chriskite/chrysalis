@@ -24,7 +24,13 @@ class Chrysalis.Models.PullRequest extends Backbone.RelationalModel
     null
 
   rebuild: ->
-    # TODO rebuild
+    console.log('build ' + @get('number'))
+    $.ajax
+      url: '/pull_requests/' + @get('id') + '/rebuild'
+      success: (resp)=>
+        @set('status', resp.status)
+      method: 'POST'
+      type: 'json'
 
 class Chrysalis.Collections.PullRequestsCollection extends Backbone.Collection
   model: Chrysalis.Models.PullRequest

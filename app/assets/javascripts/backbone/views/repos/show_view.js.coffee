@@ -4,8 +4,8 @@ class Chrysalis.Views.Repos.ShowView extends Backbone.View
   template: JST["backbone/templates/repos/show"]
 
   initialize: () ->
-    @options.model.get('pull_requests').bind('reset', @resetAllPullRequests)
-    @options.model.get('pull_requests').bind('add', @addPullRequest)
+    @listenTo @options.model.get('pull_requests'), 'reset', @resetAllPullRequests
+    @listenTo @options.model.get('pull_requests'), 'add', @addPullRequest
 
   resetAllPullRequests: () =>
     @$("#pull-requests").empty()

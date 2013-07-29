@@ -32,7 +32,7 @@ class Repo < ActiveRecord::Base
           # If it's new, save to the db
           if existing_pull.nil?
             new_pull = repo.new_pull_from_api(pull)
-            new_pull.build
+            new_pull.delayed_build
           else
             # If the remote pull request has been updated, save and rebuild
             if DateTime.parse(pull.updated_at) > existing_pull.updated_at
@@ -42,7 +42,7 @@ class Repo < ActiveRecord::Base
 
             # try to build again if it failed last time
             if 2 == existing_pull.status
-              existing_pull.build
+              existing_pull.delayed_build
             end
           end
         end

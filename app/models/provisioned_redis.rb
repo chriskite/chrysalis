@@ -7,17 +7,21 @@ class ProvisionedRedis < ActiveRecord::Base
 
   def self.create(pull_request)
     port = Rails.configuration.redis_port_start + pull_request.number
+    pidfile = File.join(pull_request.build_path, 'redis.pid')
+
     config_template = pull_request.repo.redis_template.dup rescue ""
 
-    config_template.gsub!("{{port}}", port.to_s)
-    pidfile = File.join(pull_request.build_path, 'redis.pid')
-    # TODO insert pidfile option to config_template
+    {
+      "{{port}}" => port.to_s,
+      "{{pidfile}}" => pidfile.to_s
+    }.each do |token, val|
+      config_template.gsub!(token, val)
+    end
 
     config_file = File.join(pull_request.build_path, 'redis.conf')
-
     File.open(config_file, 'w') { |file| file.write(config_template) }
 
-    # TODO exec redis-server with specified config file
+    system("#{Rails.configuration.redis_executable} #{config_file}")
 
     self.new(
       config_file: config_file,

@@ -8,4 +8,14 @@ class PullRequestsController < ApplicationController
       format.json { render json: @pull_request }
     end
   end
+
+  def rebuild
+    @pull_request = PullRequest.find(params[:id])
+
+    @pull_request.delayed_build
+
+    respond_to do |format|
+      format.json { render json: { status: @pull_request.status }.to_json }
+    end
+  end
 end

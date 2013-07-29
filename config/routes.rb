@@ -1,6 +1,9 @@
 Chrysalis::Application.routes.draw do
-  resources :pull_requests
-
+  resources :pull_requests do
+    member do
+      post 'rebuild'
+    end
+  end
 
   resources :repos
 
