@@ -82,6 +82,7 @@ class PullRequest < ActiveRecord::Base
     env_vars = env_vars.map { |env,val| "CHRYSALIS_#{env}=#{val}" }.join(" ")
 
     system("cd #{@build_path}/build && #{env_vars} ./build.sh")
+    raise "Error running build.sh" if 0 != $?
   end
 
   def destroy_build

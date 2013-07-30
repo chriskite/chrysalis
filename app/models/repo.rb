@@ -16,7 +16,7 @@ class Repo < ActiveRecord::Base
                   :nginx_template,
                   :redis_template
 
-  def self.sync_all_with_github!
+  def self.sync_all_with_github
     all.each do |repo|
       begin
         repo.clone_into_cached_copy
