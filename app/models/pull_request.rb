@@ -23,21 +23,21 @@ class PullRequest < ActiveRecord::Base
   end
 
   def build
-    update_attributes(status: 0)
-    begin
-      ensure_builds_dir_exists
+    update_attributes(status: 0) # set to 'building'
 
-      checkout
+    ensure_builds_dir_exists
 
-      provision_resources
+    checkout
 
-      run_build_command
-    rescue
-      update_attributes(status: 2)
-      Rails.logger.error $!.to_s
-    end
+    provision_resources
 
-    update_attributes(status: 1)
+    run_build_command
+
+    update_attributes(status: 1) # set to 'complete'
+  rescue
+    update_attributes(status: 2) # set to 'failed'
+    Rails.logger.error $!.to_s
+    raise $!
   end
 
   def checkout
@@ -53,14 +53,17 @@ class PullRequest < ActiveRecord::Base
 
   def provision_resources
     if repo.should_provision_mysql
+      provisioned_mysql.destroy if !!provisioned_mysql
       update_attributes(provisioned_mysql: ProvisionedMysql.create(self))
     end
 
     if repo.should_provision_nginx
+      provisioned_nginx.destroy if !!provisioned_nginx
       update_attributes(provisioned_nginx: ProvisionedNginx.create(self))
     end
 
     if repo.should_provision_redis
+      provisioned_redis.destroy if !!provisioned_redis
       update_attributes(provisioned_redis: ProvisionedRedis.create(self))
     end
   end
@@ -70,7 +73,7 @@ class PullRequest < ActiveRecord::Base
     if !!provisioned_mysql
       env_vars.merge!(
         "MYSQL_DB" => provisioned_mysql.db,
-        "MYSQL_USER" => provisinoed_mysql.user,
+        "MYSQL_USER" => provisioned_mysql.user,
         "MYSQL_PASSWORD" => provisioned_mysql.password,
       )
     end
@@ -81,6 +84,7 @@ class PullRequest < ActiveRecord::Base
     
     env_vars = env_vars.map { |env,val| "CHRYSALIS_#{env}=#{val}" }.join(" ")
 
+    Rails.logger.info "Building #{@build_path}"
     system("cd #{@build_path}/build && #{env_vars} ./build.sh")
     raise "Error running build.sh" if 0 != $?
   end
