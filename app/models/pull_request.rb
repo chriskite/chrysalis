@@ -85,7 +85,7 @@ class PullRequest < ActiveRecord::Base
     env_vars = env_vars.map { |env,val| "CHRYSALIS_#{env}=#{val}" }.join(" ")
 
     Rails.logger.info "Building #{@build_path}"
-    system("cd #{@build_path}/build && #{env_vars} ./build.sh")
+    system("cd #{@build_path} && #{env_vars} ./build/build.sh")
     raise "Error running build.sh" if 0 != $?
   end
 

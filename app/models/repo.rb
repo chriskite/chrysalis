@@ -36,7 +36,11 @@ class Repo < ActiveRecord::Base
           else
             # If the remote pull request has been updated, save and rebuild
             if DateTime.parse(pull.updated_at) > existing_pull.updated_at
-              existing_pull.update_attributes(github_updated_at: pull.updated_at, status: 3)
+              existing_pull.update_attributes(
+                title: pull.title,
+                github_updated_at: pull.updated_at,
+                status: 3
+              )
               existing_pull.checkout
             end
 
