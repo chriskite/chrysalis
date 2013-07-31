@@ -10,6 +10,7 @@ class PullRequest < ActiveRecord::Base
 
   attr_accessible :author,
                   :branch,
+                  :title,
                   :github_updated_at,
                   :status,
                   :provisioned_mysql,
