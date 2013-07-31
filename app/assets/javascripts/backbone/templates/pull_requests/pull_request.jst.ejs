@@ -23,7 +23,7 @@
   };
 %>
 
-<td><a href="<%= url %>"><%= title %></a></td>
+<td><a href="<%= url %>" target="_blank"><%= title %></a></td>
 <td><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
 <td><%= jQuery.timeago(github_updated_at) %></td>
 <td><span class="badge <%= statusClass %>"><%= loader %> <%= statusMsg %></span></td>
@@ -31,10 +31,10 @@
   var website = this.model.website();
   if(!!website) {
 %>
-<td><a href="http://<%= website %>" class="btn btn-primary">Website</a>
+<td><a href="http://<%= website %>" target="_blank" class="btn btn-primary">Website</a>
 <% } %>
 <% if(repo.jira_url && this.model.jiraIssue()) { %>
-  <a href="<%= repo.jira_url %>/browse/<%= this.model.jiraIssue() %>" class="btn btn-primary">JIRA Issue</a>
+  <a href="<%= repo.jira_url %>/browse/<%= this.model.jiraIssue() %>" target="_blank" class="btn btn-primary">JIRA Issue</a>
 <% } %>
 
 <% if(1 == status) { %>
