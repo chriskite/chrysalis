@@ -24,7 +24,7 @@ class PullRequestsController < ApplicationController
 
     respond_to do |format|
       format.json { render json: { build_log: @pull_request.build_log }.to_json }
-      format.html { render text: @pull_request.build_log }
+      format.html { render html: @pull_request, layout: false }
     end
   end
 
@@ -33,7 +33,7 @@ class PullRequestsController < ApplicationController
 
     respond_to do |format|
       format.json { render json: { app_log: @pull_request.app_log }.to_json }
-      format.html { render text: @pull_request.app_log }
+      format.html { render html: @pull_request, layout: false }
     end
   end
 end
