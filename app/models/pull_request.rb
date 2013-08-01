@@ -17,6 +17,13 @@ class PullRequest < ActiveRecord::Base
                   :provisioned_nginx,
                   :provisioned_redis
 
+  def build_log
+    ensure_builds_dir_exists
+    file = File.join(@build_path, 'build.log') 
+    return "" if !File.exists?(file)
+    open(file).read 
+  end
+
   # Update the status immediately to 'in queue', but Delayed Job the build
   def delayed_build
     update_attributes(status: 3)
@@ -86,7 +93,7 @@ class PullRequest < ActiveRecord::Base
     env_vars = env_vars.map { |env,val| "CHRYSALIS_#{env}=#{val}" }.join(" ")
 
     Rails.logger.info "Building #{@build_path}"
-    system("cd #{@build_path} && #{env_vars} ./build/build.sh")
+    system("cd #{@build_path} && #{env_vars} ./build/build.sh > build.log")
     raise "Error running build.sh" if 0 != $?
   end
 

@@ -5,6 +5,7 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
 
   events:
     "click .rebuild" : "rebuild"
+    "click .status.badge-success"  : "statusModal"
 
   tagName: "tr"
 
@@ -19,6 +20,9 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
   rebuild: ->
     @model.rebuild()
     return false
+
+  statusModal: ->
+    $('#myModal').modal(remote: '/pull_requests/' + @model.get('id') + '/build_log')
 
   render: =>
     @$el.html(@template(@model.toJSON() ))

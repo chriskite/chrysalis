@@ -2,6 +2,7 @@ Chrysalis::Application.routes.draw do
   resources :pull_requests do
     member do
       post 'rebuild'
+      get 'build_log'
     end
   end
 
