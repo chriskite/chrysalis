@@ -39,8 +39,7 @@ class Repo < ActiveRecord::Base
             if DateTime.parse(pull.updated_at) > existing_pull.updated_at
               existing_pull.update_attributes(
                 title: pull.title,
-                github_updated_at: pull.updated_at,
-                status: 3
+                github_updated_at: pull.updated_at
               )
               existing_pull.checkout
             end
