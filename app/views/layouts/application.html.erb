@@ -89,7 +89,14 @@
         Backbone.history.start();
       });
     </script>
-<!-- <script type="text/javascript" src="http://panzi.github.com/Browser-Ponies/basecfg.js" id="browser-ponies-config"></script><script type="text/javascript" src="http://panzi.github.com/Browser-Ponies/browserponies.js" id="browser-ponies-script"></script><script type="text/javascript">/* <![CDATA[ */ (function (cfg) {BrowserPonies.setBaseUrl(cfg.baseurl);BrowserPonies.loadConfig(BrowserPoniesBaseConfig);BrowserPonies.loadConfig(cfg);})({"baseurl":"http://panzi.github.com/Browser-Ponies/","fadeDuration":500,"volume":1,"fps":25,"speed":3,"audioEnabled":false,"showFps":false,"showLoadProgress":false,"speakProbability":0.0,"spawn":{"queen chrysalis":1},"autostart":true}); /* ]]> */</script>
--->
+<script type="text/javascript" src="http://panzi.github.io/Browser-Ponies/basecfg.js" id="browser-ponies-config"></script><script type="text/javascript" src="http://panzi.github.io/Browser-Ponies/browserponies.js" id="browser-ponies-script"></script>
+    <script type="text/javascript">
+    $('body').one('keyup', function(e){
+       if(e.keyCode == 32){
+          // user has pressed space
+          (function (cfg) {BrowserPonies.setBaseUrl(cfg.baseurl);BrowserPonies.loadConfig(BrowserPoniesBaseConfig);BrowserPonies.loadConfig(cfg);})({"baseurl":"http://panzi.github.io/Browser-Ponies/","fadeDuration":500,"volume":1,"fps":25,"speed":3,"audioEnabled":false,"showFps":false,"showLoadProgress":true,"speakProbability":0.0,"spawn":{"queen chrysalis":1},"autostart":true});
+       }
+    });
+    </script>
   </body>
 </html>
