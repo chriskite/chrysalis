@@ -3,6 +3,7 @@ Chrysalis::Application.routes.draw do
     member do
       post 'rebuild'
       get 'build_log'
+      get 'app_log'
     end
   end
 

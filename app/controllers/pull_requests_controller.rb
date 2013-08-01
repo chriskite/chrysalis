@@ -27,4 +27,13 @@ class PullRequestsController < ApplicationController
       format.html { render text: @pull_request.build_log }
     end
   end
+
+  def app_log
+    @pull_request = PullRequest.find(params[:id])
+
+    respond_to do |format|
+      format.json { render json: { app_log: @pull_request.app_log }.to_json }
+      format.html { render text: @pull_request.app_log }
+    end
+  end
 end

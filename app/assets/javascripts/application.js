@@ -20,3 +20,11 @@
 //= require backbone_rails_sync
 //= require backbone/chrysalis
 //= require_tree .
+
+$(document).ready(function() {
+  $('body').on('hidden', '#myModal', function() {
+    $('#myModalLabel').empty()
+    $(this).find('modal-body').empty()
+    $(this).removeData();
+  });
+});

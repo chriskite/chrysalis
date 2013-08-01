@@ -14,7 +14,8 @@ class Repo < ActiveRecord::Base
                   :should_provision_nginx,
                   :should_provision_redis,
                   :nginx_template,
-                  :redis_template
+                  :redis_template,
+                  :log_file
 
   def self.sync_all_with_github
     all.each do |repo|

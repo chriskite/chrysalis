@@ -17,6 +17,14 @@ class PullRequest < ActiveRecord::Base
                   :provisioned_nginx,
                   :provisioned_redis
 
+  def app_log
+    return "" unless !!repo.log_file
+    ensure_builds_dir_exists
+    file = File.join(@build_path, repo.log_file) 
+    return "" if !File.exists?(file)
+    open(file).read 
+  end
+
   def build_log
     ensure_builds_dir_exists
     file = File.join(@build_path, 'build.log') 

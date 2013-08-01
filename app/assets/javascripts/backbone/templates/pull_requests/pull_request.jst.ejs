@@ -37,6 +37,10 @@
   <a href="<%= repo.jira_url %>/browse/<%= this.model.jiraIssue() %>" target="_blank" class="btn btn-primary">JIRA Issue</a>
 <% } %>
 
+<% if(repo.log_file) { %>
+  <a href="#" class="log btn btn-primary">Log</a>
+<% } %>
+
 <% if(1 == status) { %>
 <a href="#" class="btn rebuild">
   <i class="icon-refresh icon-white"></i>

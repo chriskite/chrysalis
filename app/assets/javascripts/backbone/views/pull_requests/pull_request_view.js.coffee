@@ -6,6 +6,7 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
   events:
     "click .rebuild" : "rebuild"
     "click .status.badge-success"  : "statusModal"
+    "click .log"  : "logModal"
 
   tagName: "tr"
 
@@ -22,7 +23,14 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
     return false
 
   statusModal: ->
+    $('#myModalLabel').html('Pull Request ' + @model.get('number') + ' Build Log');
     $('#myModal').modal(remote: '/pull_requests/' + @model.get('id') + '/build_log')
+    return false
+
+  logModal: ->
+    $('#myModalLabel').html('Pull Request ' + @model.get('number') + ' Application Log');
+    $('#myModal').modal(remote: '/pull_requests/' + @model.get('id') + '/app_log')
+    return false
 
   render: =>
     @$el.html(@template(@model.toJSON() ))
