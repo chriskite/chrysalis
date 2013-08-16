@@ -15,7 +15,30 @@ class Repo < ActiveRecord::Base
                   :should_provision_redis,
                   :nginx_template,
                   :redis_template,
-                  :log_file
+                  :log_file,
+                  :jira_username,
+                  :jira_password
+
+  def self.sync_all_with_jira
+    all.each do |repo|
+      options = {
+                  :username => repo.jira_username,
+                  :password => repo.jira_password,
+                  :use_ssl => false,
+                  :context_path => '/',
+                  :site     => repo.jira_url,
+                  :auth_type => :basic
+                }
+
+      client = JIRA::Client.new(options)
+
+      begin
+        repo.pull_requests.each { |pull_request| pull_request.sync_with_jira(client) }
+      rescue
+        Rails.logger.warn $!.to_s
+      end
+    end
+  end
 
   def self.sync_all_with_github
     all.each do |repo|

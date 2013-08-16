@@ -19,6 +19,7 @@
 
 every 1.minutes do
   runner "Repo.sync_all_with_github"
+  runner "Repo.sync_all_with_jira"
 end
 
 # Learn more: http://github.com/javan/whenever

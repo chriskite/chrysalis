@@ -12,9 +12,11 @@ class Chrysalis.Models.PullRequest extends Backbone.RelationalModel
     updated_at: null
     github_created_at: null
     github_updated_at: null
+    jira_status_name: null
+    jira_status_icon_url: null
 
   jiraIssue: ->
-    match = @get('title').match(/[A-Z]*-[0-9]*/)?[0]
+    match = @get('title').match(/[A-Z]+-[0-9]+/)?[0]
 
   website: ->
     nginx_template = @get('repo').get('nginx_template')

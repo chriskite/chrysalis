@@ -26,6 +26,8 @@ class Chrysalis.Models.Repo extends Backbone.RelationalModel
     nginx_template: null
     redis_template: null
     log_file: null
+    jira_username: null
+    jira_password: null
 
 Chrysalis.Models.Repo.setup()
 

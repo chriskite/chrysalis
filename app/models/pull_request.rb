@@ -15,7 +15,26 @@ class PullRequest < ActiveRecord::Base
                   :status,
                   :provisioned_mysql,
                   :provisioned_nginx,
-                  :provisioned_redis
+                  :provisioned_redis,
+                  :jira_status_name,
+                  :jira_status_icon_url
+
+  def sync_with_jira(client)
+    return unless !!jira_issue && jira_issue != ""
+    issue = client.Issue.find(jira_issue)
+    if !!issue
+      update_attributes(
+        jira_status_name: issue.status.name,
+        jira_status_icon_url: issue.status.iconUrl
+      )
+    end
+  end
+
+  def jira_issue
+    matches = title.match(/[A-Z]+-[0-9]+/)
+    return "" if matches.nil?
+    matches[0]
+  end
 
   def app_log
     return "" unless !!repo.log_file

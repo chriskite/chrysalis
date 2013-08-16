@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801180349) do
+ActiveRecord::Schema.define(:version => 20130816194014) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -60,8 +60,8 @@ ActiveRecord::Schema.define(:version => 20130801180349) do
     t.integer  "repo_id"
     t.string   "title"
     t.string   "author"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "status"
     t.integer  "number"
     t.string   "url"
@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(:version => 20130801180349) do
     t.string   "head_sha"
     t.datetime "github_created_at"
     t.datetime "github_updated_at"
+    t.string   "jira_status_name"
+    t.string   "jira_status_icon_url"
   end
 
   add_index "pull_requests", ["repo_id"], :name => "index_pull_requests_on_repo_id"
@@ -91,6 +93,8 @@ ActiveRecord::Schema.define(:version => 20130801180349) do
     t.text     "nginx_template"
     t.text     "redis_template"
     t.string   "log_file"
+    t.string   "jira_username"
+    t.string   "jira_password"
   end
 
 end
