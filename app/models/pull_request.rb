@@ -4,8 +4,6 @@ class PullRequest < ActiveRecord::Base
   has_one :provisioned_nginx, dependent: :destroy
   has_one :provisioned_redis, dependent: :destroy
 
-  attr_reader :build_path
-
   before_destroy :destroy_build
 
   attr_accessible :author,
@@ -130,17 +128,17 @@ class PullRequest < ActiveRecord::Base
     end
   end
 
+  def build_path
+    return nil unless !!repo
+    builds_dir = Rails.root.join('builds')
+    builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
+  end
+
   private
 
   def ensure_builds_dir_exists
     builds_dir = Rails.root.join('builds')
     FileUtils.mkdir_p(builds_dir)
-  end
-
-  def build_path
-    return nil unless !!repo
-    builds_dir = Rails.root.join('builds')
-    builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
   end
 
 end
