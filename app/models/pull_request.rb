@@ -126,7 +126,7 @@ class PullRequest < ActiveRecord::Base
 
   def destroy_build
     if Dir.exists?(build_path.to_s)
-      FileUtils.rmdir(build_path.to_s)
+      FileUtils.remove_dir(build_path.to_s)
     end
   end
 
