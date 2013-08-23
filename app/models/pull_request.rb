@@ -39,14 +39,14 @@ class PullRequest < ActiveRecord::Base
   def app_log
     return "" unless !!repo.log_file
     ensure_builds_dir_exists
-    file = File.join(@build_path, repo.log_file) 
+    file = File.join(build_path, repo.log_file) 
     return "" if !File.exists?(file)
     open(file).read 
   end
 
   def build_log
     ensure_builds_dir_exists
-    file = File.join(@build_path, 'build.log') 
+    file = File.join(build_path, 'build.log') 
     return "" if !File.exists?(file)
     open(file).read 
   end
@@ -78,11 +78,11 @@ class PullRequest < ActiveRecord::Base
   def checkout
     ensure_builds_dir_exists
 
-    if !Dir.exists?(@build_path)
-      FileUtils.cp_r(repo.cached_copy, @build_path)
+    if !Dir.exists?(build_path)
+      FileUtils.cp_r(repo.cached_copy, build_path)
     end
 
-    system("cd #{@build_path} && git fetch origin && git checkout #{head_ref} && git reset --hard origin/#{head_ref}")
+    system("cd #{build_path} && git fetch origin && git checkout #{head_ref} && git reset --hard origin/#{head_ref}")
       raise "Error checking out ref" if $? != 0
   end
 
@@ -119,14 +119,14 @@ class PullRequest < ActiveRecord::Base
     
     env_vars = env_vars.map { |env,val| "CHRYSALIS_#{env}=#{val}" }.join(" ")
 
-    Rails.logger.info "Building #{@build_path}"
-    system("cd #{@build_path} && #{env_vars} ./build/build.sh > build.log")
+    Rails.logger.info "Building #{build_path}"
+    system("cd #{build_path} && #{env_vars} ./build/build.sh > build.log")
     raise "Error running build.sh" if 0 != $?
   end
 
   def destroy_build
-    if Dir.exists?(@build_path.to_s)
-      FileUtils.rmdir(@build_path.to_s)
+    if Dir.exists?(build_path.to_s)
+      FileUtils.rmdir(build_path.to_s)
     end
   end
 
@@ -135,7 +135,12 @@ class PullRequest < ActiveRecord::Base
   def ensure_builds_dir_exists
     builds_dir = Rails.root.join('builds')
     FileUtils.mkdir_p(builds_dir)
-    @build_path = builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
+  end
+
+  def build_path
+    return nil unless !!repo
+    builds_dir = Rails.root.join('builds')
+    builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
   end
 
 end
