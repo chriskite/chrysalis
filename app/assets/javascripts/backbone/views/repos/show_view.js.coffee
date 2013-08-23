@@ -16,7 +16,7 @@ class Chrysalis.Views.Repos.ShowView extends Backbone.View
 
   addPullRequest: (pullRequest) =>
     view = new Chrysalis.Views.PullRequests.PullRequestView({model : pullRequest})
-    @$("#pull-requests tr th").parent().eq(0).after(view.render().el)
+    @$("#pull-requests tbody").prepend(view.render().el)
 
   render: ->
     $(@el).html(@template(@model.toJSON() ))

@@ -19,6 +19,7 @@
 //= require backbone_datalink
 //= require backbone_rails_sync
 //= require backbone/chrysalis
+//= require sortable
 //= require_tree .
 
 $(document).ready(function() {
