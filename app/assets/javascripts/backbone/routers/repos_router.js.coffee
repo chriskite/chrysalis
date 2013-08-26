@@ -30,9 +30,10 @@ class Chrysalis.Routers.ReposRouter extends Backbone.Router
     @view = new Chrysalis.Views.Repos.ShowView(model: repo)
     @view.listenTo this, 'tick', =>
       repo.fetch success: ->
-        repo.fetchRelated('pull_requests', {}, true)
+        repo.fetchRelated('pull_requests', {success: -> $.bootstrapSortable(true)}, true)
 
     $("#repos").html(@view.render().el)
+    $.bootstrapSortable(true)
 
   edit: (id) ->
     @view?.remove()
