@@ -21,17 +21,9 @@ class Repo < ActiveRecord::Base
 
   def self.sync_all_with_jira
     all.each do |repo|
-      options = {
-                  :username => repo.jira_username,
-                  :password => repo.jira_password,
-                  :use_ssl => false,
-                  :context_path => '/',
-                  :site     => repo.jira_url,
-                  :auth_type => :basic
-                }
+      next unless !!repo.jira_url # skip if this repo isn't configured for jira
 
-      client = JIRA::Client.new(options)
-
+      client = repo.jira_client
       begin
         repo.pull_requests.each { |pull_request| pull_request.sync_with_jira(client) }
       rescue
@@ -57,6 +49,12 @@ class Repo < ActiveRecord::Base
           if existing_pull.nil?
             new_pull = repo.new_pull_from_api(pull)
             new_pull.delayed_build
+
+            if !!repo.jira_url
+              # Comment on the jira issue
+              client = repo.jira_client
+              new_pull.comment_on_jira_issue(client)
+            end
           else
             # If the remote pull request has been updated, save and rebuild
             if DateTime.parse(pull.updated_at) > existing_pull.updated_at
@@ -86,6 +84,19 @@ class Repo < ActiveRecord::Base
       # Set the success status
       repo.update_attributes(github_status: 1)
     end
+  end
+
+  def jira_client
+    options = {
+                :username => jira_username,
+                :password => jira_password,
+                :use_ssl => false,
+                :context_path => '/',
+                :site     => jira_url,
+                :auth_type => :basic
+              }
+
+    JIRA::Client.new(options)
   end
 
   def clone_url

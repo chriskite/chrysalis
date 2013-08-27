@@ -28,6 +28,19 @@ class PullRequest < ActiveRecord::Base
     end
   end
 
+  def comment_on_jira_issue(client)
+    return unless !!jira_issue && jira_issue != ""
+    issue = client.Issue.find(jira_issue)
+    if !!issue
+      comment = issue.comments.build
+      comment_body = "A pull request has been created for this issue: #{url}"
+      if repo.should_provision_nginx
+        comment_body += "\n\nView website: http://#{website}"
+      end
+      comment.save({'body': comment_body})
+    end
+  end
+
   def jira_issue
     matches = title.match(/[A-Z]+-[0-9]+/)
     return "" if matches.nil?
@@ -132,6 +145,14 @@ class PullRequest < ActiveRecord::Base
     return nil unless !!repo
     builds_dir = Rails.root.join('builds')
     builds_dir.join("#{repo.owner}-#{repo.name}-#{number}")
+  end
+
+  def website
+    if !!repo.nginx_template && repo.should_provision_nginx
+      match = repo.nginx_template.match(/server_name (.*);/)
+      return !!match[1] ? match[1].gsub('{{number}}', number) : nil
+    end
+    nil
   end
 
   private
