@@ -150,7 +150,7 @@ class PullRequest < ActiveRecord::Base
   def website
     if !!repo.nginx_template && repo.should_provision_nginx
       match = repo.nginx_template.match(/server_name (.*);/)
-      return !!match[1] ? match[1].gsub('{{number}}', number) : nil
+      return !!match[1] ? match[1].gsub('{{number}}', number.to_s) : nil
     end
     nil
   end
