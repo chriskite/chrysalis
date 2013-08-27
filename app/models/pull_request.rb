@@ -37,7 +37,7 @@ class PullRequest < ActiveRecord::Base
       if repo.should_provision_nginx
         comment_body += "\n\nView website: http://#{website}"
       end
-      comment.save({'body': comment_body})
+      comment.save({'body' => comment_body})
     end
   end
 
