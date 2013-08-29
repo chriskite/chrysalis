@@ -3,6 +3,9 @@ class Chrysalis.Routers.ReposRouter extends Backbone.Router
     @repos = new Chrysalis.Collections.ReposCollection()
     @repos.reset(options.repos)
     setInterval =>
+      $(".timeago").each ->
+        $e = $(this)
+        $e.html($.timeago($e.data('value')))
       @trigger('tick')
     , 5000
 
