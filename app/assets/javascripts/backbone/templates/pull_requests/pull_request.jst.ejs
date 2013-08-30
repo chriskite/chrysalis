@@ -24,9 +24,9 @@
 %>
 
 <td><a href="<%= url %>" target="_blank"><%= title %></a></td>
-<td><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
+<td data-value="<%= user_login + '' + number %>"><img width=32 height=32 src="<%= user_avatar_url %>" /> <%= user_login %></td>
 <td class="timeago" data-value="<%= github_updated_at %>"><%= jQuery.timeago(github_updated_at) %></td>
-<td><span class="status badge <%= statusClass %>"><%= loader %> <%= statusMsg %></span></td>
+<td data-value="<%= statusMsg + '' + number%>"><span class="status badge <%= statusClass %>"><%= loader %> <%= statusMsg %></span></td>
 
 <td>
   <% if(!!jira_status_name) { %>
