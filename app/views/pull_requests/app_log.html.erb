@@ -1,3 +1,1 @@
-<pre>
-<%= @pull_request.app_log %>
-</pre>
+<%= ansi2html(h(@pull_request.app_log)).html_safe %>
