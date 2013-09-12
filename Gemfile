@@ -33,6 +33,7 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'mysql2'
 gem 'jira-ruby', require: 'jira'
+gem 'ansible'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

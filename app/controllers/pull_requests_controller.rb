@@ -1,4 +1,6 @@
 class PullRequestsController < ApplicationController
+  include Ansible
+
   # GET /pull_requests/1
   # GET /pull_requests/1.json
   def show
@@ -23,7 +25,7 @@ class PullRequestsController < ApplicationController
     @pull_request = PullRequest.find(params[:id])
 
     respond_to do |format|
-      format.json { render json: { build_log: @pull_request.build_log }.to_json }
+      format.json { render json: { build_log: ansi_escaped(@pull_request.build_log) }.to_json }
       format.html { render html: @pull_request, layout: false }
     end
   end
