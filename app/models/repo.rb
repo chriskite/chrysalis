@@ -39,8 +39,8 @@ class Repo < ActiveRecord::Base
 
         github = Github.new(oauth_token: repo.token)
 
-        # Get all open pull requests for this repo
-        open_pulls = github.pull_requests.list(repo.owner, repo.name)
+        # Get first 100 open pull requests for this repo
+        open_pulls = github.pull_requests.list(repo.owner, repo.name, per_page: 100)
         open_pulls.each do |pull|
           # Check if this pull request is already in the db
           existing_pull = repo.pull_requests.where(number: pull.number).first
