@@ -24,10 +24,12 @@ class Repo < ActiveRecord::Base
       next unless !!repo.jira_url # skip if this repo isn't configured for jira
 
       client = repo.jira_client
-      begin
-        repo.pull_requests.each { |pull_request| pull_request.sync_with_jira(client) }
-      rescue
-        Rails.logger.warn $!.to_s
+      repo.pull_requests.each do |pull_request|
+        begin
+          pull_request.sync_with_jira(client)
+        rescue
+          Rails.logger.warn($!.to_s)
+        end
       end
     end
   end
