@@ -22,8 +22,8 @@ class PullRequest < ActiveRecord::Base
     issue = client.Issue.find(jira_issue)
     if !!issue
       update_attributes(
-        jira_status_name: issue.status.name,
-        jira_status_icon_url: issue.status.iconUrl
+        jira_status_name: issue.assignee.displayName,
+        jira_status_icon_url: issue.status.avatarUrls["32x32"]
       )
     end
   end
