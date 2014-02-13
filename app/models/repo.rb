@@ -66,11 +66,6 @@ class Repo < ActiveRecord::Base
               )
               existing_pull.checkout
             end
-
-            # try to build again if it failed last time
-            if 2 == existing_pull.status
-              existing_pull.delayed_build
-            end
           end
         end
 
