@@ -6,6 +6,7 @@ class Chrysalis.Views.PullRequests.PullRequestView extends Backbone.View
   events:
     "click .rebuild" : "rebuild"
     "click .status.badge-success"  : "statusModal"
+    "click .status.badge-important"  : "statusModal"
     "click .log"  : "logModal"
 
   tagName: "tr"
