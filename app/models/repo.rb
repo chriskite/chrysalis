@@ -58,13 +58,16 @@ class Repo < ActiveRecord::Base
               new_pull.comment_on_jira_issue(client)
             end
           else
-            # If the remote pull request has been updated, save and rebuild
+            # If the remote pull request has been updated, save and check back out
             if DateTime.parse(pull.updated_at) > existing_pull.updated_at
               existing_pull.update_attributes(
                 title: pull.title,
                 github_updated_at: pull.updated_at
               )
               existing_pull.checkout
+
+              # if it was failed, rebuild with the updated code
+              existing_pull.delayed_build if 2 == existing_pull.status
             end
           end
         end
