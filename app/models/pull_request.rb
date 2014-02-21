@@ -23,7 +23,7 @@ class PullRequest < ActiveRecord::Base
     if !!issue
       update_attributes(
         jira_status_name: issue.assignee.displayName,
-        jira_status_icon_url: issue.status.avatarUrls["32x32"]
+        jira_status_icon_url: issue.assignee.avatarUrls["32x32"]
       )
     end
   end
