@@ -32,7 +32,9 @@ class ProvisionedRedis < ActiveRecord::Base
   end
 
   def destroy_redis
-    system("kill -9 `cat #{pidfile}`")
+    if File.exists?(pidfile)
+      system("kill -9 `cat #{pidfile}`")
+    end
     nil
   end
 end

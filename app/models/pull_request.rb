@@ -39,6 +39,8 @@ class PullRequest < ActiveRecord::Base
       end
       comment.save({'body' => comment_body})
     end
+    rescue
+    Rails.logger.error $!.to_s
   end
 
   def jira_issue
