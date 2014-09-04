@@ -28,12 +28,11 @@ class PullRequest < ActiveRecord::Base
     end
   end
 
-  def comment_on_jira_issue(client)
+  def comment_on_jira_issue(client, comment_body)
     return unless !!jira_issue && jira_issue != ""
     issue = client.Issue.find(jira_issue)
     if !!issue
       comment = issue.comments.build
-      comment_body = "A pull request has been created for this issue: #{url}"
       if repo.should_provision_nginx
         comment_body += "\n\nView website: http://#{website}"
       end
@@ -80,6 +79,10 @@ class PullRequest < ActiveRecord::Base
     provision_resources
 
     run_build_command
+
+    if !!repo.jira_url
+      comment_on_jira_issue(repo.jira_client, "Chrysalis build completed.")
+    end
 
     update_attributes(status: 1) # set to 'complete'
   rescue
