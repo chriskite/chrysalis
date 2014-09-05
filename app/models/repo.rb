@@ -55,7 +55,7 @@ class Repo < ActiveRecord::Base
             if !!repo.jira_url
               # Comment on the jira issue
               client = repo.jira_client
-              new_pull.comment_on_jira_issue(client, "A pull request has been created for this issue: #{url}")
+              new_pull.comment_on_jira_issue(client, "A pull request has been created for this issue: #{new_pull.url}")
             end
           else
             # If the remote pull request has been updated, save and check back out
